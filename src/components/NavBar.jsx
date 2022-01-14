@@ -1,3 +1,5 @@
+import { Badge } from '@material-ui/core';
+import { Search, ShoppingCartOutlined } from '@material-ui/icons';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -7,22 +9,48 @@ const Container = styled.div`
 const Wrapper = styled.div`
   padding: 10px 20px;
   display: flex;
+  align-items: center;
   justify-content: space-between;
 `;
 
 const Left = styled.div`
   flex: 1;
+  display: flex;
+  align-items: center;
 `;
 
 const Language = styled.span`
   font-size: 14px;
   cursor: pointer;
 `;
+const SearchContainer = styled.div`
+  border: 0.5px solid lightgray;
+  display: flex;
+  align-items: center;
+  margin-left: 25px;
+  padding: 5px;
+`;
+const Input = styled.input`
+  border: none;
+`;
+
 const Center = styled.div`
   flex: 1;
+  text-align: center;
+`;
+const Logo = styled.h1`
+  font-weight: bold;
 `;
 const Right = styled.div`
   flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
+const MenuItem = styled.div`
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 25px;
 `;
 
 const NavBar = () => {
@@ -31,19 +59,23 @@ const NavBar = () => {
       <Wrapper>
         <Left>
           <Language>EN</Language>
+          <SearchContainer>
+            <Input />
+            <Search style={{ color: 'gray', fontSize: '16px' }} />
+          </SearchContainer>
         </Left>
         <Center>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book. It has survived not only
-          five centuries, but also the leap into electronic typesetting,
-          remaining essentially unchanged. It was popularised in the 1960s with
-          the release of Letraset sheets containing Lorem Ipsum passages, and
-          more recently with desktop publishing software like Aldus PageMaker
-          including versions of Lorem Ipsum.
+          <Logo>GFORG</Logo>
         </Center>
-        <Right>Right</Right>
+        <Right>
+          <MenuItem>REGISTER</MenuItem>
+          <MenuItem>SIGN IN</MenuItem>
+          <MenuItem>
+            <Badge badgeContent={4} color="primary">
+              <ShoppingCartOutlined />
+            </Badge>
+          </MenuItem>
+        </Right>
       </Wrapper>
     </Container>
   );
