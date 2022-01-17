@@ -12,9 +12,12 @@ import {
 } from '@material-ui/icons';
 import React from 'react';
 import styled from 'styled-components';
+import { mobile } from '../config/responsive';
 
 const Container = styled.div`
   display: flex;
+
+  ${mobile({ flexDirection: 'column' })}
 `;
 const Left = styled.div`
   flex: 1;
@@ -39,10 +42,14 @@ const SocialIcon = styled.div`
   align-items: center;
   justify-content: center;
   margin-right: 20px;
+
+  ${mobile({ marginRight: '7px' })}
 `;
 const Center = styled.div`
   flex: 1;
   padding: 20px;
+
+  ${mobile({ backgroundColor: '#fcf5f5' })}
 `;
 const Title = styled.h3`
   margin-bottom: 30px;
