@@ -40,13 +40,25 @@ const Products = ({ category, filters, sort }) => {
       );
   }, [products, category, filters]);
 
-  console.log(filterProducts);
+  useEffect(() => {
+    if (sort === 'newest') {
+      setFilterProducts((prev) =>
+        [...prev].sort((a, b) => a.createdAt - b.createdAt)
+      );
+    } else if (sort === 'asc') {
+      setFilterProducts((prev) => [...prev].sort((a, b) => a.price - b.price));
+    } else {
+      setFilterProducts((prev) => [...prev].sort((a, b) => b.price - a.price));
+    }
+  }, [sort]);
+
+  // console.log(filterProducts);
 
   return (
     <Container>
-      {filterProducts.map((item) => (
-        <Product item={item} key={item.id} />
-      ))}
+      {category
+        ? filterProducts.map((item) => <Product item={item} key={item.id} />)
+        : products.map((item) => <Product item={item} key={item.id} />)}
     </Container>
   );
 };

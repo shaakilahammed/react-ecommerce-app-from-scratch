@@ -1,11 +1,13 @@
 import { Add, Remove } from '@material-ui/icons';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Announcement from '../components/Announcement';
 import Footer from '../components/Footer';
 import NavBar from '../components/NavBar';
 import Newsletter from '../components/Newsletter';
 import { mobile } from '../config/responsive';
+import { publicRequest } from '../config/requestMethod';
 
 const Container = styled.div``;
 
@@ -121,51 +123,71 @@ const Button = styled.button`
 `;
 
 const Product = () => {
+  const productId = useParams().id;
+  const [product, setProduct] = useState({});
+  const [quantity, setQuantity] = useState(1);
+  const [color, setColor] = useState('');
+  const [size, setSize] = useState('');
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await publicRequest.get(`/products/${productId}`);
+        setProduct(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getProduct();
+  }, [productId]);
+
+  const handleQuantity = (type) => {
+    if (type === 'dec') {
+      setQuantity((quantity) => (quantity > 1 ? quantity - 1 : quantity));
+    } else {
+      setQuantity((quantity) => quantity + 1);
+    }
+  };
+
+  const handleClick = () => {
+    console.log(product, quantity, color, size);
+  };
+
   return (
     <Container>
       <NavBar />
       <Announcement />
       <Wrapper>
         <ImageContainer>
-          <Image src="https://i.ibb.co/S6qMxwr/jean.jpg"></Image>
+          <Image src={product?.img}></Image>
         </ImageContainer>
         <InfoContainer>
-          <Title>Jumpsuit</Title>
-          <Desc>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged.
-          </Desc>
-          <Price>$ 25</Price>
+          <Title>{product?.title}</Title>
+          <Desc>{product?.desc}</Desc>
+          <Price>$ {product?.price}</Price>
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
-              <FilterColor color="black" />
-              <FilterColor color="darkblue" />
-              <FilterColor color="gray" />
+              {product?.color?.map((c) => (
+                <FilterColor color={c} key={c} onClick={() => setColor(c)} />
+              ))}
             </Filter>
             <Filter>
               <FilterTitle>Size</FilterTitle>
-              <FilterSize>
-                <FilterSizeOption>XS</FilterSizeOption>
-                <FilterSizeOption>S</FilterSizeOption>
-                <FilterSizeOption>M</FilterSizeOption>
-                <FilterSizeOption>L</FilterSizeOption>
-                <FilterSizeOption>XL</FilterSizeOption>
-                <FilterSizeOption>XXL</FilterSizeOption>
+              <FilterSize onChange={(e) => setSize(e.target.value)}>
+                {product?.size?.map((s) => (
+                  <FilterSizeOption key={s}>{s}</FilterSizeOption>
+                ))}
               </FilterSize>
             </Filter>
           </FilterContainer>
           <AddContainer>
             <AmmountContainer>
-              <Remove />
-              <Ammount>1</Ammount>
-              <Add />
+              <Remove onClick={() => handleQuantity('dec')} />
+              <Ammount>{quantity}</Ammount>
+              <Add onClick={() => handleQuantity('inc')} />
             </AmmountContainer>
-            <Button>Add To Cart</Button>
+            <Button onClick={handleClick}>Add To Cart</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>
