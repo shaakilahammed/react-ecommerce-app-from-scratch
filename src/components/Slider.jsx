@@ -1,7 +1,7 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@material-ui/icons';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-
+import { useSelector } from 'react-redux';
 import { sliderItems } from '../config/data';
 import { mobile } from '../config/responsive';
 
@@ -84,6 +84,7 @@ const Button = styled.button`
 
 const Slider = () => {
   const [slideIndex, setSlideIndex] = useState(0);
+  const name = useSelector((state) => state.user.username);
   const handleClick = (direction) => {
     if (direction === 'left') {
       setSlideIndex(slideIndex > 0 ? slideIndex - 1 : sliderItems.length - 1);
@@ -105,6 +106,7 @@ const Slider = () => {
             <InfoContainer>
               <Title>{item.title}</Title>
               <Desc>{item.desc}</Desc>
+              <Desc>- {name}</Desc>
               <Button>SHOP NOW</Button>
             </InfoContainer>
           </Slide>

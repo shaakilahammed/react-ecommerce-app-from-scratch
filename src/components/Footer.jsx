@@ -11,6 +11,7 @@ import {
   YouTube,
 } from '@material-ui/icons';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { mobile } from '../config/responsive';
 
@@ -81,6 +82,7 @@ const Payment = styled.img`
 `;
 
 const Footer = () => {
+  const name = useSelector((state) => state.user.username);
   return (
     <Container>
       <Left>
@@ -128,7 +130,7 @@ const Footer = () => {
         </List>
       </Center>
       <Right>
-        <Title>Contact</Title>
+        <Title>Contact @{name}</Title>
         <ContactItem>
           <Room style={{ marginRight: '10px' }} /> 14/B Board Bazar, Gazipur
           1704

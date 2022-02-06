@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -13,7 +14,8 @@ const Container = styled.div`
 `;
 
 const Announcement = () => {
-  return <Container>Super Deal! Free Shipping</Container>;
+  const name = useSelector((state) => state.user.username);
+  return <Container>Super Deal! Free Shipping - {name}</Container>;
 };
 
 export default Announcement;

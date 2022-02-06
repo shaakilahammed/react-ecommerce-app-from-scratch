@@ -1,5 +1,6 @@
 import { Send } from '@material-ui/icons';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { mobile } from '../config/responsive';
 
@@ -45,10 +46,12 @@ const Button = styled.button`
 `;
 
 const Newsletter = () => {
+  const name = useSelector((state) => state.user.username);
   return (
     <Container>
       <Title>Newsletter</Title>
       <Desc>Get timely updates from your favorite products</Desc>
+      <Desc>- {name}</Desc>
       <InputContainer>
         <Input placeholder="Your Email" />
         <Button>
