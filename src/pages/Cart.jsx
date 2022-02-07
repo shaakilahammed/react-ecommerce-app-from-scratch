@@ -6,6 +6,7 @@ import Footer from '../components/Footer';
 import NavBar from '../components/NavBar';
 import Newsletter from '../components/Newsletter';
 import { mobile } from '../config/responsive';
+import { useSelector } from 'react-redux';
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -140,6 +141,7 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
+  const cart = useSelector((state) => state.cart);
   return (
     <Container>
       <NavBar />
@@ -156,65 +158,45 @@ const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            <Product>
-              <ProductDetail>
-                <Image src="https://images.pexels.com/photos/249597/pexels-photo-249597.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=auto&w=150" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> NIKON CAMERA
-                  </ProductName>
-                  <ProductId>
-                    <b>ID:</b> ECA983457
-                  </ProductId>
-                  <ProductColor color="black" />
-                  <ProductSize>
-                    <b>Size:</b> 100D
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>1</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
+            {cart?.products?.map((product) => (
+              <>
+                <Product>
+                  <ProductDetail>
+                    <Image src={product?.img} />
+                    <Details>
+                      <ProductName>
+                        <b>Product:</b> {product?.title}
+                      </ProductName>
+                      <ProductId>
+                        <b>ID:</b> {product?._id}
+                      </ProductId>
+                      <ProductColor color={product?.color} />
+                      <ProductSize>
+                        <b>Size:</b> {product?.size}
+                      </ProductSize>
+                    </Details>
+                  </ProductDetail>
+                  <PriceDetail>
+                    <ProductAmountContainer>
+                      <Add />
+                      <ProductAmount>{product?.quantity}</ProductAmount>
+                      <Remove />
+                    </ProductAmountContainer>
 
-                <ProductPrice>$ 130</ProductPrice>
-              </PriceDetail>
-            </Product>
-            <Hr />
-            <Product>
-              <ProductDetail>
-                <Image src="https://images.pexels.com/photos/249597/pexels-photo-249597.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=auto&w=150" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> NIKON CAMERA
-                  </ProductName>
-                  <ProductId>
-                    <b>ID:</b> ECA983457
-                  </ProductId>
-                  <ProductColor color="black" />
-                  <ProductSize>
-                    <b>Size:</b> 100D
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>1</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-
-                <ProductPrice>$ 130</ProductPrice>
-              </PriceDetail>
-            </Product>
+                    <ProductPrice>
+                      $ {product?.price * product?.quantity}
+                    </ProductPrice>
+                  </PriceDetail>
+                </Product>
+                <Hr />
+              </>
+            ))}
           </Info>
           <Summary>
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
+              <SummaryItemPrice>$ {cart?.total}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Shipping Charge</SummaryItemText>
@@ -222,11 +204,11 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Discount</SummaryItemText>
-              <SummaryItemPrice>$ 5</SummaryItemPrice>
+              <SummaryItemPrice>$ -5</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
+              <SummaryItemPrice>$ {cart?.total}</SummaryItemPrice>
             </SummaryItem>
 
             <Button>CHECKOUT NOW</Button>

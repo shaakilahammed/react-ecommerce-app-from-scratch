@@ -7,6 +7,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { mobile } from '../config/responsive';
+import { addProduct } from '../redux/cartSlice';
 
 const Info = styled.div`
   opacity: 0;
